@@ -56,7 +56,7 @@ public class App {
             LOG.trace("Create the factory that creates DOM parsers");
             DocumentBuilderFactory domParserFactory = DocumentBuilderFactory.newInstance();
 
-            // Instancier le parser qui permet d'obtenir un document DOM à partir
+            // Instancier le parser qui permet d'obtenir un document DOM a partir
             // du fichier XML.
             LOG.trace("Create a DOM parser");
             DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -74,7 +74,7 @@ public class App {
             Element root = doc.getDocumentElement();
             printDomTree(root);
 
-            // Récupérer tous les noeuds correspondant a des element "data"
+            // Recuperer tous les noeuds correspondant a des element "data"
             LOG.info("Fetching \"data\" nodes");
             NodeList dataNodes = doc.getElementsByTagName("data");
             LOG.info("Found " + dataNodes.getLength() + " \"data\" nodes");
@@ -88,7 +88,7 @@ public class App {
                 LOG.info("Data node has parent : " + hasParent);
                 if(hasParent) { LOG.info("Parent name : " + dataNodes.item(c0).getParentNode().getNodeName()); }
 
-                // Analyser le noeud frère précédent s'il y en a
+                // Analyser le noeud frere precedent s'il y en a
                 boolean hasPreviousSibling = dataNodes.item(c0).getPreviousSibling() != null ? true : false;
                 LOG.info("Node has previous sibling : " + hasPreviousSibling);
                 if(hasPreviousSibling) { 
@@ -98,7 +98,7 @@ public class App {
                     LOG.info("Previous sibling text content : " + dataNodes.item(c0).getPreviousSibling().getTextContent());
                 }
 
-                // Analyser le noeud frère suivant s'il y en a
+                // Analyser le noeud frere suivant s'il y en a
                 boolean hasNextSibling = dataNodes.item(c0).getNextSibling() != null ? true : false;
                 LOG.info("Node has next sibling : " + hasNextSibling);
                 if(hasNextSibling) { 
@@ -125,15 +125,15 @@ public class App {
             // le JAR (repertoire src/main/java/resources).
             file = App.class.getResourceAsStream("/example-minified.xml");
 
-            // Instancier la factory qui crée les parsers SAX
+            // Instancier la factory qui cree les parsers SAX
             LOG.trace("Creating SAX parser factory");
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
-            // Créer un parser SAX
+            // Creer un parser SAX
             LOG.trace("Creating SAX parser");
             SAXParser saxParser = saxParserFactory.newSAXParser();
 
-            // Créer le handler qui affiche le contenu et la structure du document
+            // Creer le handler qui affiche le contenu et la structure du document
             // XML pendant sa lecture par le parser SAX.
             LOG.trace("Creating the handler to use to print XML file");
             PrintXmlDocSaxHandler printXmlDocSacHandler = new PrintXmlDocSaxHandler();
@@ -150,8 +150,8 @@ public class App {
             // le JAR (repertoire src/main/java/resources).
             file = App.class.getResourceAsStream("/example-minified.xml");
 
-            // Créer le handler qui affiche l'identifiant des noeuds qui ne contiennent
-            // pas d'élément data.
+            // Creer le handler qui affiche l'identifiant des noeuds qui ne contiennent
+            // pas d'element data.
             LOG.trace("Creating the handler to use to query the XML file");
             QueryEmptyDataNodesSaxHandler qednSaxHandler = new QueryEmptyDataNodesSaxHandler();
 

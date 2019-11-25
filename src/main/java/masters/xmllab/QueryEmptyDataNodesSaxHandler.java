@@ -7,22 +7,22 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Cette classe est un handler SAX qui détecte les noeud sans élément data et affiche leur id.
+ * Cette classe est un handler SAX qui detecte les noeud sans element data et affiche leur id.
  */
 public class QueryEmptyDataNodesSaxHandler extends DefaultHandler {
 
     /**
-     * Indique si l'élément data est manquant du noeud examiné
+     * Indique si l'element data est manquant du noeud examine
      */
     private boolean dataIsMissing;
 
     /**
-     * Indique si le contenu de l'élément examiné appartient à un élément id
+     * Indique si le contenu de l'element examine appartient a un element id
      */
     private boolean idIsBeingProcessed;
 
     /**
-     * Retiens la valeur de l'élément id du noeud examiné
+     * Retiens la valeur de l'element id du noeud examine
      */
     private String nodeId;
 
@@ -32,106 +32,106 @@ public class QueryEmptyDataNodesSaxHandler extends DefaultHandler {
     private final Logger Log = LoggerFactory.getLogger(QueryEmptyDataNodesSaxHandler.class);
 
     /**
-     * Appelé à chaque fois que le parser SAX lit la balise de début d'un élément.
+     * Appele a chaque fois que le parser SAX lit la balise de debut d'un element.
      * 
-     * @param uri Namespace de l'élément - null si aucun namespace est utilisé (c'est le cas ici)
-     * @param localName Nom de l'élément - null si aucun namespace est utilisé (c'est le cas ici)
-     * @param qName Nom de l'élément avec préfixe s'il y en a un
-     * @param attributes Liste des attributs de l'élément
+     * @param uri Namespace de l'element - null si aucun namespace est utilise (c'est le cas ici)
+     * @param localName Nom de l'element - null si aucun namespace est utilise (c'est le cas ici)
+     * @param qName Nom de l'element avec prefixe s'il y en a un
+     * @param attributes Liste des attributs de l'element
      * 
-     * @throws SAXException Exception pouvant être lancée par la méthode en cas d'erreur
+     * @throws SAXException Exception pouvant etre lancee par la methode en cas d'erreur
      */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
       
-        // Si l'élément que l'on commence à examiner est un élément noeud
+        // Si l'element que l'on commence a examiner est un element noeud
         if(qName.equals("noeud")) {
 
-            // Jusqu'à preuve du contraire, on suppose que l'élément data manque
+            // Jusqu'a preuve du contraire, on suppose que l'element data manque
             this.dataIsMissing = true;
         }
 
-        // Si l'élément que l'on commence à examiner est un élément id
+        // Si l'element que l'on commence a examiner est un element id
         if(qName.equals("id")) {
             
-            // Lever le flag qui indique que l'on examine un élément id
+            // Lever le flag qui indique que l'on examine un element id
             this.idIsBeingProcessed = true;
         }
 
-        // Si l'élément que l'on commence à examiner est un élément data
+        // Si l'element que l'on commence a examiner est un element data
         if(qName.equals("data")) {
 
-            // Un élément data a été trouvé
+            // Un element data a ete trouve
             this.dataIsMissing = false;
         }
     }
 
     /**
-     * Appelé à chaque fois que le parser SAX lit la balise de fin d'un élément.
+     * Appele a chaque fois que le parser SAX lit la balise de fin d'un element.
      * 
-     * @param uri Namespace de l'élément - null si aucun namespace est utilisé (c'est le cas ici)
-     * @param localName Nom de l'élément - null si aucun namespace est utilisé (c'est le cas ici)
-     * @param qName Nom de l'élément avec préfixe s'il y en a un
+     * @param uri Namespace de l'element - null si aucun namespace est utilise (c'est le cas ici)
+     * @param localName Nom de l'element - null si aucun namespace est utilise (c'est le cas ici)
+     * @param qName Nom de l'element avec prefixe s'il y en a un
      * 
-     * @throws SAXException Exception pouvant être lancée par la méthode en cas d'erreur
+     * @throws SAXException Exception pouvant etre lancee par la methode en cas d'erreur
      */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
 
-        // Si l'élément que l'on a examiné est un élément noeud
+        // Si l'element que l'on a examine est un element noeud
         if(qName.equals("noeud")) {
 
-            // Si aucun élément data n'a été trouvé
+            // Si aucun element data n'a ete trouve
             if(this.dataIsMissing) {
-                // Afficher l'ID du noeud qui n'a pas d'élément data
+                // Afficher l'ID du noeud qui n'a pas d'element data
                 Log.info("No \"data\" element for the node identified by : " + nodeId);
             }
         }
 
-        // Si l'élément que l'on commence à examiner est un élément id
+        // Si l'element que l'on commence a examiner est un element id
         if(qName.equals("id")) {
             
-            // Baisser le flag qui indique que l'on examine un élément id
+            // Baisser le flag qui indique que l'on examine un element id
             this.idIsBeingProcessed = false;
         }
     }
 
     /**
-     * Appelé à chaque fois que le parser SAX lit le contenu textuel d'un élément
+     * Appele a chaque fois que le parser SAX lit le contenu textuel d'un element
      * 
      * @param ch Contenu du fichier lu sous forme de texte
-     * @param start Indice pour démarrer la lecture du contenu texte de l'élément examiné
-     * @param length Longueur du contenu texte de l'élément examiné
+     * @param start Indice pour demarrer la lecture du contenu texte de l'element examine
+     * @param length Longueur du contenu texte de l'element examine
      */
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
 
-        // Toujours récupérer le contenu texte de l'élément de cette manière.
+        // Toujours recuperer le contenu texte de l'element de cette maniere.
         String textContent = new String(ch, start, length);
 
-        // Si l'élément examiné est un élément id, retenir l'ID
+        // Si l'element examine est un element id, retenir l'ID
         if(this.idIsBeingProcessed) {
             this.nodeId = textContent;
         }
     }
 
     /**
-     * Appelé lorsque le parser SAX démarre le parsing d'un document
+     * Appele lorsque le parser SAX demarre le parsing d'un document
      */
     @Override
     public void startDocument() throws SAXException {
 
-        // Afficher événement : Début document
+        // Afficher evenement : Debut document
         this.Log.info("DOCUMENT : BEGIN");
     }
 
     /**
-     * Appelé lorsque le parser SAX finit le parsing d'un document
+     * Appele lorsque le parser SAX finit le parsing d'un document
      */
     @Override
     public void endDocument() throws SAXException {
 
-        // Afficher événement : Fin document
+        // Afficher evenement : Fin document
         this.Log.info("DOCUMENT : END");
     }
 }
