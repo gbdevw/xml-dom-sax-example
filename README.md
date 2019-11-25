@@ -1,5 +1,7 @@
 ## Java & XML : Simple demo with Apache Xerces, DOM & SAX
 
+Maven based Java project to show how to use DOM & SAX to parse and explore a simple XML file.
+
 ### Tip to run the commands
 
 Open a terminal and run the commands from the directory that contains the pom.xml
